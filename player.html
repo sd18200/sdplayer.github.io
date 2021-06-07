@@ -10,15 +10,15 @@
 </div>
 </head>
 <body>
-    <div class="main_div">
+    <div class="main_div">      
         <div class="main_container"> 
-          <H2 id="track"> roses </H2>
+          <H2 id="title"> roses </H2>
           <H4 id="artist">SAINt JHN(Imanbek remix)</H4>
            <div class="music_cover">
-             <img src ="images/Roses-cover.jpg" alt=""/>
+             <img src ="" alt="" id="img"/>
           </div>
           <div class="music">
-             <audio src="music/roses.mp3"></audio>
+             <audio src="" id="audio"></audio>
           </div>
          <!---controller area ----->
          <div class="controller">
@@ -33,19 +33,40 @@
          </div>
      
     </div>
-            <script>
-                let isPlaying=false;
+         <script>
+            const songs = [
+                {       
+                        name:"roses",
+                        title:"Roses",
+                        artist:"SAINt JHN",
+                },
+                {
+                        name:"onandon" ,
+                        title:"On & On",
+                        artist:"Cartoon (feat. Daniel Levi)",        
+                },
+                {
+                        name:"flyaway" ,
+                        title:"Flyaway" ,
+                        artist:"TheFatRat",
+                },
+            ];
+            
                 const music=document.querySelector("audio");
-                const img= document.querySelector("img");
+                const img= document.querySelector("img"); 
+                const title=document.getElementById("title");
                 const artist=document.getElementById("artist");
-                const title=document.getElementById("title")
                 const play=document.getElementById("playbutton");
                 const next=document.getElementById("nextbutton");
-                const prev=document.getElementById("prevbutton")
+                const prev=document.getElementById("prevbutton");
+
+                
+           
+            let isPlaying=false;
                 //for play
                 const playMusic =() => {
-                    isPlaying=true; 
-                    music.play();
+                    isPlaying=true;           
+                     music.play();
                     play.classList.replace("fa-play","fa-pause");};
                
                 //for pause
@@ -53,13 +74,38 @@
                     isPlaying=false; 
                     music.pause();
                     play.classList.replace("fa-pause","fa-play");};
+               
 
                 play.addEventListener("click", () => {
                    isPlaying ? pauseMusic() : playMusic();
-                } );
+                });
+                //changing music data
+                const loadSong = (songs) => {
+                    title.textContent = songs.title;
+                    artist.textContent = songs.artist;
+                    music.src = "music/"+songs.name+".mp3";
+                    img.src = "images/"+songs.name+".jpg";
+                };
+                //next song
+                musicIndex=0;
+                loadSong(songs[musicIndex]);
+                const nextSong = () =>{
+                    musicIndex=(musicIndex+1) % songs.length;
+                    loadSong(songs[musicIndex]);
+                    playMusic();
+                };
+                //prev song
+                const prevSong = () =>{
+                    musicIndex=(musicIndex-1+songs.length)%songs.length;
+                    loadSong(songs[musicIndex]);
+                    playMusic();
+                }; 
+
+                next.addEventListener("click",nextSong);
+                prev.addEventListener("click", prevSong);
+          
     
     
-    
-           </script>
+        </script>
 </body>
 </html>
