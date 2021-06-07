@@ -9,9 +9,14 @@
 
 
 html{
-    font-size: 200%;
+      font-size: 200%;
     color: #f6f6f6;
     font-family: 'Komika Title', sans-serif;
+    background-image:url('playerbg.gif');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
 
 }
 
