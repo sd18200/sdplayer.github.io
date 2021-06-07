@@ -20,6 +20,16 @@
           <div class="music">
              <audio src="" id="audio"></audio>
           </div>
+          <!-- progess bar -->
+          <div class="progressbarcont" id="progess_container">
+             <div class="progress_duration_meter">
+                 <div id="current_time"> 0:00 </div>
+                 <div id="duration">2:50</div>
+             </div>
+             <div class="progress_div" id="progress_div">
+                 <div class="progress" id="progress"></div>
+             </div> 
+          </div>
          <!---controller area ----->
          <div class="controller">
             <i class="fas fa-caret-left"id="prevbutton" title="previous track"></i>
@@ -38,7 +48,7 @@
                 {       
                         name:"roses",
                         title:"Roses",
-                        artist:"SAINt JHN",
+                        artist:"SAINt JHN (Imanbek Remix)",
                 },
                 {
                         name:"onandon" ,
@@ -59,7 +69,11 @@
                 const play=document.getElementById("playbutton");
                 const next=document.getElementById("nextbutton");
                 const prev=document.getElementById("prevbutton");
-
+                const progress_div=document.getElementById("progress_div");
+                
+                let total_duration=document.getElementById("duration");
+                let current_time=document.getElementById("current_time");
+                let progress = document.getElementById("progress");
                 
            
             let isPlaying=false;
@@ -100,7 +114,41 @@
                     loadSong(songs[musicIndex]);
                     playMusic();
                 }; 
-
+//progress bar section
+                music.addEventListener("timeupdate", (event) => {
+               // console.log(event);
+                const {currentTime, duration}=event.srcElement;
+                //console.log(currentTime);
+                 
+                let progress_time  = (currentTime/duration)*100; 
+                progress.style.width = `${progress_time}%`;
+                //music duration section
+                let min_duration=Math.floor(duration/60);
+                let sec_duration=Math.floor(duration%60);
+                let tot_duration=`${min_duration}:${sec_duration}`;
+                if(duration){
+                    total_duration.textContent=`${tot_duration}`;
+                }
+                //music current time 
+                let min_currentTime=Math.floor(currentTime/60);
+                let sec_currentTime=Math.floor(currentTime%60);
+                if(sec_currentTime<10){
+                    sec_currentTime=`0${sec_currentTime}`;
+                    }                       
+                    
+                let tot_currentTime=`${min_currentTime}:${sec_currentTime}`;
+                current_time.textContent=`${tot_currentTime}`;
+             });
+             //progress due to click
+             progress_div.addEventListener("click", (event) => {
+               //  console.log(event);
+                const {duration} = music;
+               // console.log(duration);
+                let move_progress = (event.offsetX / event.srcElement.clientWidth)*duration;
+               // console.log(move_progress);
+                music.currentTime=move_progress;
+            });
+                music.addEventListener("ended", nextSong);
                 next.addEventListener("click",nextSong);
                 prev.addEventListener("click", prevSong);
           
