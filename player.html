@@ -141,11 +141,10 @@
              });
              //progress due to click
              progress_div.addEventListener("click", (event) => {
-               //  console.log(event);
-                const {duration} = music;
-               // console.log(duration);
-                let move_progress = (event.offsetX / event.srcElement.clientWidth)*duration;
-               // console.log(move_progress);
+                let move_progress=0;
+                const {currentTime, duration} = music;
+                 move_progress = (event.offsetX / 368)* duration;
+                 console.log("offset: "+event.offsetX);
                 music.currentTime=move_progress;
             });
                 music.addEventListener("ended", nextSong);
